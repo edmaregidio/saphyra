@@ -1,5 +1,5 @@
 
-__all__ = ['RpLayer','rvec']
+__all__ = ['RpLayer']
 
 
 from tensorflow.keras.layers import Layer
@@ -10,24 +10,25 @@ from copy import copy
 
 
 
-rvec = np.concatenate( ( 
-                       np.arange(1,9), # PS
-                       np.arange(1,65),# EM1
-                       np.arange(1,9), # EM2
-                       np.arange(1,9), # EM3
-                       np.arange(1,5), # HAD1
-                       np.arange(1,5), # HAD2
-                       np.arange(1,5), # HAD3
-                       ))
+#rvec = np.concatenate( ( 
+#                       np.arange(1,9), # PS
+#                       np.arange(1,65),# EM1
+#                       np.arange(1,9), # EM2
+#                       np.arange(1,9), # EM3
+#                       np.arange(1,5), # HAD1
+#                       np.arange(1,5), # HAD2
+#                       np.arange(1,5), # HAD3
+#                       ))
 
 
 class RpLayer(Layer):
 
 
-  def __init__(self, rvec, **kwargs):
+  #def __init__(self,rvec, **kwargs):
+  def __init__(self, **kwargs):
     super(RpLayer, self).__init__(**kwargs)
-    self.rvec = rvec
-    self.output_dim = (len(rvec),)
+    self.rvec = np.concatenate((np.arange(1,9),np.arange(1,65),np.arange(1,9),np.arange(1,9),np.arange(1,5),np.arange(1,5),np.arange(1,5)))
+    self.output_dim = (len(self.rvec),)
 
 
 
