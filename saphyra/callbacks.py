@@ -22,6 +22,8 @@ class sp(Callback, Logger):
     self.__best_weights = NotSet
     self.__best_epoch = 0
     self._validation_data = NotSet
+    self.__alpha = 0
+    self.__beta = 1
 
   def set_validation_data( self, v ):
     self._validation_data = v
@@ -99,4 +101,11 @@ class sp(Callback, Logger):
     MSG_INFO( self, "Finished tuning")
 
 
+  def alpha_beta_history(self, logs={}):
+    alpha = self.model.trainable_weights[0][0][0].numpy()
+    beta = self.model.trainable_weights[1][0][0].numpy()
+    
+    return alpha,beta
+    
+    
 
