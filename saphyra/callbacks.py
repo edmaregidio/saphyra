@@ -67,7 +67,7 @@ class sp(Callback, Logger):
     logs['max_sp_partial_derivative_fa_val'] = partial_fa
     logs['max_sp_partial_derivative_pd_val'] = partial_pd
 
-    alpha_beta_history()
+    self.alpha_beta_history()
     if self.__verbose:
       print (" - val_sp: {:.4f} (fa:{:.4f},pd:{:.4f}), patience: {}, dSP/dFA: {:.4f}, dSP/dPD: {:.4f}, alpha: {:.4f}, beta: {:.4f} ".format(sp[knee],
         fa[knee],pd[knee], self.__ipatience, partial_fa, partial_pd,self.__alpha,self.__beta))
