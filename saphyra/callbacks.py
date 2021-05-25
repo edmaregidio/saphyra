@@ -68,6 +68,9 @@ class sp(Callback, Logger):
     logs['max_sp_partial_derivative_pd_val'] = partial_pd
 
     self.alpha_beta_history()
+    logs['alpha_training'] = self.__alpha
+    logs['beta_training'] = self.__beta
+    
     if self.__verbose:
       print (" - val_sp: {:.4f} (fa:{:.4f},pd:{:.4f}), patience: {}, dSP/dFA: {:.4f}, dSP/dPD: {:.4f}, alpha: {:.4f}, beta: {:.4f} ".format(sp[knee],
         fa[knee],pd[knee], self.__ipatience, partial_fa, partial_pd,self.__alpha,self.__beta))
@@ -105,6 +108,7 @@ class sp(Callback, Logger):
   def alpha_beta_history(self, logs={}):
     self.__alpha = self.model.trainable_weights[0][0][0].numpy()
     self.__beta = self.model.trainable_weights[1][0][0].numpy()
+    
    
     
     
