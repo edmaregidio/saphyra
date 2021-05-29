@@ -11,7 +11,7 @@ import numpy as np
 
 class sp(Callback, Logger):
 
-  def __init__(self, verbose=False,save_the_best=False, patience=False, **kw):
+  def __init__(self, verbose=False,save_the_best=False,rp_layer=False,patience=False, **kw):
     super(Callback, self).__init__()
     Logger.__init__(self,**kw)
     self.__verbose = verbose
@@ -22,8 +22,11 @@ class sp(Callback, Logger):
     self.__best_weights = NotSet
     self.__best_epoch = 0
     self._validation_data = NotSet
-    self.__alpha = 0
-    self.__beta = 1
+    self.__rp_layer = rp_layer
+    
+    if(self.__rp_layer):
+      self.__alpha = 0
+      self.__beta = 1
 
   def set_validation_data( self, v ):
     self._validation_data = v
@@ -67,14 +70,20 @@ class sp(Callback, Logger):
     logs['max_sp_partial_derivative_fa_val'] = partial_fa
     logs['max_sp_partial_derivative_pd_val'] = partial_pd
 
-    self.alpha_beta_history()
-    logs['alpha_training'] = self.__alpha
-    logs['beta_training'] = self.__beta
+    if(self.__rp_layer):
+      self.alpha_beta_history()
+      logs['alpha_training'] = self.__alpha
+      logs['beta_training'] = self.__beta
     
     if self.__verbose:
-      print (" - val_sp: {:.4f} (fa:{:.4f},pd:{:.4f}), patience: {}, dSP/dFA: {:.4f}, dSP/dPD: {:.4f}, alpha: {:.4f}, beta: {:.4f} ".format(sp[knee],
+      if(self.__rp_layer):
+        print (" - val_sp: {:.4f} (fa:{:.4f},pd:{:.4f}), patience: {}, dSP/dFA: {:.4f}, dSP/dPD: {:.4f}, alpha: {:.4f}, beta: {:.4f} ".format(sp[knee],
         fa[knee],pd[knee], self.__ipatience, partial_fa, partial_pd,self.__alpha,self.__beta))
-
+        
+      else:
+        print (" - val_sp: {:.4f} (fa:{:.4f},pd:{:.4f}), patience: {}, dSP/dFA: {:.4f}, dSP/dPD: {:.4f} ".format(sp[knee],
+        fa[knee],pd[knee], self.__ipatience, partial_fa, partial_pd))
+        
 
     if sp[knee] > self.__best_sp:
       self.__best_sp = sp[knee]
